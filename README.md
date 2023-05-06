@@ -1,0 +1,1 @@
+# Kelime çeviri oyunu API

@@ -2,7 +2,14 @@ import { NotFoundException } from './notFoundException';
 
 export class TranslationNotFoundException extends NotFoundException {
   constructor(additionalMessage = '') {
-    const message = `The word's translation not found! ${additionalMessage}`;
+    let message = `The word's translation not found`;
+
+    if (additionalMessage) {
+      message += `, ${additionalMessage}`;
+    }
+
+    message += '!';
+
     super(message);
   }
 }

@@ -5,17 +5,21 @@ import { env } from 'process';
 
 @Service()
 export class TranslateService {
-  protected API_ADDRESS = 'https://dictionary.yandex.net/api/v1/dicservice.json/lookup';
+  protected API_URL: string;
+  protected API_KEY: string;
 
-  // lang=en-tr&text=dictionary
+  public constructor() {
+    this.API_URL = env.YANDEX_DICTIONARY_API_URL;
+    this.API_KEY = env.YANDEX_DICTIONARY_API_KEY;
+  }
 
   protected async yandexDictionaryAPI(translation: Translation): Promise<Translation> {
-    const targetLanguage = `${translation.languages.main}-${translation.languages.target}`;
+    const targetLanguage = `${translation.language}-${translation.targetLanguage}`;
 
-    const url = new URL(this.API_ADDRESS);
+    const url = new URL(this.API_URL);
     url.searchParams.set('lang', targetLanguage);
     url.searchParams.set('text', translation.word);
-    url.searchParams.set('key', env.YANDEX_DICTIONARY_API_TOKEN);
+    url.searchParams.set('key', this.API_KEY);
 
     const response = await fetch(url)
       .then(response => response.json())
@@ -24,7 +28,7 @@ export class TranslateService {
       });
 
     if (!response.def.length) {
-      throw new TranslationNotFoundException();
+      throw new TranslationNotFoundException(`with this word '${translation.word}'`);
     }
 
     const newTranslation: Translation = { ...translation };

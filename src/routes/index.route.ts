@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Routes } from '@interfaces/routes.interface';
 import { IndexController } from '@controllers/index.controller';
+import controllerErrorMiddleware from '@/middlewares/controller-error.middleware';
 
 export class IndexRoute implements Routes {
   public path = '/';
@@ -12,6 +13,6 @@ export class IndexRoute implements Routes {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.index.index);
+    this.router.get(`${this.path}`, controllerErrorMiddleware(this.index.index));
   }
 }

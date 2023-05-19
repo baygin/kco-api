@@ -1,9 +1,6 @@
 import { Word } from './word.interface';
 
 export interface Translation extends Word {
-  languages: {
-    main: String;
-    target: String;
-  };
+  targetLanguage: string;
   meanings?: Array<string>;
 }

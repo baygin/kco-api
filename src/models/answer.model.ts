@@ -1,13 +1,9 @@
 import { model, Schema, Document } from 'mongoose';
-import { Answer } from '@interfaces/answers.interface';
+import { Answer, AnswerStatus } from '@interfaces/answers.interface';
 import { Types } from 'mongoose';
 
 const AnswerSchema: Schema = new Schema({
   roundId: {
-    type: Types.ObjectId,
-    required: true,
-  },
-  userId: {
     type: Types.ObjectId,
     required: true,
   },
@@ -21,7 +17,7 @@ const AnswerSchema: Schema = new Schema({
     required: true,
   },
   isCorrect: {
-    type: Number,
+    type: AnswerStatus,
     default: 0,
     required: true,
   },

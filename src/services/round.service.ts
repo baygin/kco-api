@@ -3,7 +3,8 @@ import { ERoundLanguage, Round } from '@interfaces/round.interface';
 import { RoundModel } from '@models/round.model';
 import { InvalidArgumentException } from '@/exceptions/invalidArgumentException';
 import { ObjectId } from 'mongoose';
-import { roundNotFoundException } from '@/exceptions/roundNotFoundException';
+import { RoundNotFoundException } from '@/exceptions/roundNotFoundException';
+import { EHTTPStatusCode, HttpException } from '@/exceptions/httpException';
 
 @Service()
 export class RoundService {
@@ -14,6 +15,10 @@ export class RoundService {
 
     const round: Round = await RoundModel.create({ word, language, roundTime });
 
+    if (!round) {
+      throw new HttpException(EHTTPStatusCode.INTERNAL_SERVER, 'Occurred an internal error when creating a round!');
+    }
+
     return round;
   }
 
@@ -21,7 +26,7 @@ export class RoundService {
     const round: Round = await RoundModel.findById(roundId);
 
     if (!round) {
-      throw new roundNotFoundException("Round doesn't exists!");
+      throw new RoundNotFoundException("Round doesn't exists!");
     }
 
     return round;

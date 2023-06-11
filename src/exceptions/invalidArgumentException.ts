@@ -1,7 +1,8 @@
-import { EHTTPStatusCode, HttpException } from './httpException';
+import { HttpException } from './httpException';
+import { StatusCodes } from 'http-status-codes';
 
 export class InvalidArgumentException extends HttpException {
-  protected static status: EHTTPStatusCode = EHTTPStatusCode.BAD_REQUEST;
+  protected static status: Number = StatusCodes.BAD_REQUEST;
   public message: string;
 
   constructor(message = 'Invalid argument!') {

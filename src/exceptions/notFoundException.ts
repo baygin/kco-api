@@ -1,7 +1,8 @@
-import { EHTTPStatusCode, HttpException } from './httpException';
+import { HttpException } from './httpException';
+import { StatusCodes } from 'http-status-codes';
 
 export class NotFoundException extends HttpException {
-  protected static status: EHTTPStatusCode = EHTTPStatusCode.NOT_FOUND;
+  protected static status: Number = StatusCodes.NOT_FOUND;
   public message: string;
 
   constructor(message = 'There is no data found!') {

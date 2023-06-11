@@ -4,7 +4,8 @@ import { RoundModel } from '@models/round.model';
 import { InvalidArgumentException } from '@/exceptions/invalidArgumentException';
 import { ObjectId } from 'mongoose';
 import { RoundNotFoundException } from '@/exceptions/roundNotFoundException';
-import { EHTTPStatusCode, HttpException } from '@/exceptions/httpException';
+import { HttpException } from '@/exceptions/httpException';
+import { StatusCodes } from 'http-status-codes';
 
 @Service()
 export class RoundService {
@@ -16,7 +17,7 @@ export class RoundService {
     const round: Round = await RoundModel.create({ word, language, roundTime });
 
     if (!round) {
-      throw new HttpException(EHTTPStatusCode.INTERNAL_SERVER, 'Occurred an internal error when creating a round!');
+      throw new HttpException(StatusCodes.INTERNAL_SERVER_ERROR, 'Occurred an internal error when creating a round!');
     }
 
     return round;

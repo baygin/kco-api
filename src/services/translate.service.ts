@@ -3,6 +3,7 @@ import { Translation } from '@/interfaces/translation.interface';
 import { TranslationNotFoundException } from '@/exceptions/translationNotFoundException';
 import { env } from 'process';
 import { yandexAPIKeyInvalidException } from '@/exceptions/yandexAPIKeyInvalidException';
+import { StatusCodes } from 'http-status-codes';
 
 @Service()
 export class TranslateService {
@@ -27,7 +28,7 @@ export class TranslateService {
         throw new TranslationNotFoundException(error);
       });
 
-    if (response.code === 401) {
+    if (response.code === StatusCodes.UNAUTHORIZED) {
       throw new yandexAPIKeyInvalidException();
     }
 

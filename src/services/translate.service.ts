@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import { Translation } from '@/interfaces/translation.interface';
 import { TranslationNotFoundException } from '@/exceptions/translationNotFoundException';
 import { env } from 'process';
+import { yandexAPIKeyInvalidException } from '@/exceptions/yandexAPIKeyInvalidException';
 
 @Service()
 export class TranslateService {
@@ -15,7 +16,6 @@ export class TranslateService {
 
   protected async yandexDictionaryAPI(translation: Translation): Promise<Translation> {
     const targetLanguage = `${translation.language}-${translation.targetLanguage}`;
-
     const url = new URL(this.API_URL);
     url.searchParams.set('lang', targetLanguage);
     url.searchParams.set('text', translation.word);
@@ -26,6 +26,10 @@ export class TranslateService {
       .catch(error => {
         throw new TranslationNotFoundException(error);
       });
+
+    if (response.code === 401) {
+      throw new yandexAPIKeyInvalidException();
+    }
 
     if (!response.def.length) {
       throw new TranslationNotFoundException(`with this word '${translation.word}'`);

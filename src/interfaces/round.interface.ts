@@ -1,11 +1,12 @@
-import { ObjectId } from 'mongoose';
-
 export enum ERoundLanguage {
-  trEN = 'tr-en',
+  /**
+   * English to Turkish
+   */
+  enTR = 'en-tr',
 }
 
 export interface Round {
-  _id: ObjectId;
+  id: string;
   word?: string;
   language?: ERoundLanguage;
   date?: Date;
